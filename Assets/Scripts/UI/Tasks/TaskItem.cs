@@ -6,28 +6,45 @@ using UnityEngine.UI;
 
 public class TaskItem : MonoBehaviour
 {
+    private Task _task;
+    public Task Task
+    {
+        get
+        {
+            _task |= _inputField.text;
+            return _task;
+        }
+        set
+        {
+            _task = value;
+            _inputField.text = _task;
+        }
+    }
+    
+    public int Index { get; set; }
+    public TaskListUI Parent { private get; set; }
+    
     [Header("Padding")]
     [SerializeField] private float paddingTop = 15f;
     [SerializeField] private float paddingBottom = 15f;
 
     private TMP_InputField _inputField;
     private RectTransform _rectTransform;
-    private ContentSizeFitter _sizeFitter;
 
     private string _oldText;
 
-    private void Start()
+    private void Awake()
     {
         _rectTransform = (RectTransform)transform;
         _inputField = GetComponentInChildren<TMP_InputField>();
         _oldText = _inputField.text;
-        _sizeFitter = _inputField.GetComponent<ContentSizeFitter>();
-        _inputField.onValueChanged.AddListener(delegate(string text) { StartCoroutine(Resize(text)); });
-        _inputField.onSubmit.AddListener(delegate(string text) { StartCoroutine(Resize(text)); });
+        _inputField.onValueChanged.AddListener(delegate(string text) { StartCoroutine(UpdateTask(text)); });
+        _inputField.onSubmit.AddListener(delegate(string text) { StartCoroutine(UpdateTask(text)); });
     }
 
-    private IEnumerator Resize(string text)
+    private IEnumerator UpdateTask(string text)
     {
+        //resize ui
         Color caretColour = _inputField.caretColor;
         float caretAlpha = caretColour.a;
         caretColour.a = 0f;
@@ -50,5 +67,19 @@ public class TaskItem : MonoBehaviour
 
         caretColour.a = caretAlpha;
         _inputField.caretColor = caretColour;
+        
+        //update in GameManager
+        GameManager.Instance.Tasks[Index] = Task;
+    }
+
+    public void Delete()
+    {
+        Parent.DeleteTaskItem(Index);
+        Destroy(gameObject);
+    }
+
+    public void SetSelected()
+    {
+        _inputField.Select();
     }
 }
