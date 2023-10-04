@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -13,13 +14,13 @@ public class TaskItem : MonoBehaviour
     private RectTransform _rectTransform;
     private ContentSizeFitter _sizeFitter;
 
-    private string oldText;
+    private string _oldText;
 
     private void Start()
     {
         _rectTransform = (RectTransform)transform;
         _inputField = GetComponentInChildren<TMP_InputField>();
-        oldText = _inputField.text;
+        _oldText = _inputField.text;
         _sizeFitter = _inputField.GetComponent<ContentSizeFitter>();
         _inputField.onValueChanged.AddListener(delegate(string text) { StartCoroutine(Resize(text)); });
         _inputField.onSubmit.AddListener(delegate(string text) { StartCoroutine(Resize(text)); });
@@ -27,14 +28,27 @@ public class TaskItem : MonoBehaviour
 
     private IEnumerator Resize(string text)
     {
-        _inputField.SetTextWithoutNotify(oldText);
+        Color caretColour = _inputField.caretColor;
+        float caretAlpha = caretColour.a;
+        caretColour.a = 0f;
+        _inputField.caretColor = caretColour;
+        bool increased = text.Length > _oldText.Length;
+        _inputField.SetTextWithoutNotify(_oldText);
         yield return null;
         _inputField.SetTextWithoutNotify(text);
-        oldText = text;
+        _oldText = text;
         Canvas.ForceUpdateCanvases();
         RectTransform inputFieldRect = (RectTransform)_inputField.transform;
         Vector2 size = _rectTransform.sizeDelta;
         size.y = inputFieldRect.sizeDelta.y + paddingTop + paddingBottom;
         _rectTransform.sizeDelta = size;
+
+        if (increased)
+        {
+            _inputField.caretPosition++;
+        }
+
+        caretColour.a = caretAlpha;
+        _inputField.caretColor = caretColour;
     }
 }
