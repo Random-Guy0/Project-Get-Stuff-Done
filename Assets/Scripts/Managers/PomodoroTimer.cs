@@ -10,6 +10,7 @@ public class PomodoroTimer : MonoBehaviour
     [SerializeField] private float workChunkDuration = 1500f;
     [SerializeField] private float breakChunkDuration = 300f;
     [SerializeField] private float longBreakChunkDuration = 900f;
+    [SerializeField] private bool debugMode = false;
     private PomodoroTimerState _state = PomodoroTimerState.NotStarted;
     
     public float CurrentTime
@@ -27,6 +28,11 @@ public class PomodoroTimer : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(this);
+        }
+
+        if (debugMode)
+        {
+            workChunkDuration = 11f;
         }
     }
 
