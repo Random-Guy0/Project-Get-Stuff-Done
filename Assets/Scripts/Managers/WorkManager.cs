@@ -27,7 +27,10 @@ public class WorkManager : MonoBehaviour
 
     private void Update()
     {
-        _inputDetectedInPeriod = CheckForInput();
+        if (!_inputDetectedInPeriod)
+        {
+            _inputDetectedInPeriod = CheckForInput();
+        }
 
         _timer += Time.deltaTime;
         if (_timer >= checkPeriod)
