@@ -33,6 +33,8 @@ public class PomodoroTimer : MonoBehaviour
         if (debugMode)
         {
             workChunkDuration = 11f;
+            breakChunkDuration = 31f;
+            longBreakChunkDuration = 45f;
         }
     }
 
@@ -85,6 +87,7 @@ public class PomodoroTimer : MonoBehaviour
     {
         _state = PomodoroTimerState.Break;
         _timer = breakChunkDuration;
+        ResourceManager.Instance.CalculateRewards();
         SceneManager.LoadScene("BreakScene");
     }
 

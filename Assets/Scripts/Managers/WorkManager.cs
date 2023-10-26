@@ -11,8 +11,8 @@ public class WorkManager : MonoBehaviour
 
     private bool _inputDetectedInPeriod = false;
 
-    private int _secondsInFocus = 0;
-    private int _secondsOfInput = 0;
+    public int SecondsInFocus { get; private set; }
+    public int SecondsOfInput { get; private set; }
 
     private void Start()
     {
@@ -27,7 +27,10 @@ public class WorkManager : MonoBehaviour
 
     private void Update()
     {
-        _inputDetectedInPeriod = CheckForInput();
+        if (!_inputDetectedInPeriod)
+        {
+            _inputDetectedInPeriod = CheckForInput();
+        }
 
         _timer += Time.deltaTime;
         if (_timer >= checkPeriod)
@@ -36,19 +39,20 @@ public class WorkManager : MonoBehaviour
             _timer = 0f;
         }
         
-        Debug.Log("Seconds in Focus: " + _secondsInFocus);
-        Debug.Log("Seconds of Input: " + _secondsOfInput);
+        Debug.Log("Seconds in Focus: " + SecondsInFocus);
+        Debug.Log("Seconds of Input: " + SecondsOfInput);
     }
 
     private void CheckForWork()
     {
         if (FocusedWindowIsWork())
         {
-            _secondsInFocus++;
+            SecondsInFocus++;
             
             if (_inputDetectedInPeriod)
             {
-                _secondsOfInput++;
+                SecondsOfInput++;
+                _inputDetectedInPeriod = false;
             }
         }
     }
