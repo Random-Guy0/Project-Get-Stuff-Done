@@ -82,4 +82,10 @@ public class TaskItem : MonoBehaviour
     {
         _inputField.Select();
     }
+
+    public void CompleteTask()
+    {
+        ResourceManager.Instance.CompleteTask();
+        Delete();
+    }
 }

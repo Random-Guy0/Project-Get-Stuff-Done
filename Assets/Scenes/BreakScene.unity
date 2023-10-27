@@ -600,6 +600,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 355847295}
     m_Modifications:
+    - target: {fileID: 6235561198657230138, guid: 6bb88e732d88489449c9dab6ee651902, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 96.35
+      objectReference: {fileID: 0}
     - target: {fileID: 7494003497735541043, guid: 6bb88e732d88489449c9dab6ee651902, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -1087,6 +1091,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 355847295}
     m_Modifications:
+    - target: {fileID: 474064226640766358, guid: 7202ba41500ebaa499d27dc052a13a7e, type: 3}
+      propertyPath: taskItemPrefab
+      value: 
+      objectReference: {fileID: 1855453147188383594, guid: 8c8b1171b4db59e419709df9cd495c94, type: 3}
     - target: {fileID: 1973459566556496850, guid: 7202ba41500ebaa499d27dc052a13a7e, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -1110,6 +1118,10 @@ PrefabInstance:
     - target: {fileID: 4545229971969330003, guid: 7202ba41500ebaa499d27dc052a13a7e, type: 3}
       propertyPath: m_Name
       value: Tasks
+      objectReference: {fileID: 0}
+    - target: {fileID: 6451859031079100093, guid: 7202ba41500ebaa499d27dc052a13a7e, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 96.35
       objectReference: {fileID: 0}
     - target: {fileID: 7333885729792231491, guid: 7202ba41500ebaa499d27dc052a13a7e, type: 3}
       propertyPath: m_AnchorMax.y

@@ -43,5 +43,9 @@ public class TaskListUI : MonoBehaviour
     {
         GameManager.Instance.Tasks.RemoveAt(index);
         _taskUI.RemoveAt(index);
+        for (int i = index; i < _taskUI.Count; i++)
+        {
+            _taskUI[i].Index--;
+        }
     }
 }
