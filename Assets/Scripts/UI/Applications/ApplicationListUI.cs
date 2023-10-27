@@ -36,6 +36,7 @@ public class ApplicationListUI : MonoBehaviour
     {
         index--;
         
+        GameManager.Instance.Processes.Add(availableProcesses[index]);
         CreateNewApplicationItem(availableProcesses[index]);
         dropdown.SetValueWithoutNotify(0);
         dropdown.RefreshShownValue();
@@ -43,7 +44,6 @@ public class ApplicationListUI : MonoBehaviour
 
     private void CreateNewApplicationItem(Process process)
     {
-        GameManager.Instance.Processes.Add(process);
         ApplicationItem newApplication = Instantiate(applicationItemPrefab, applicationsContainer);
         newApplication.Process = process;
         newApplication.transform.SetSiblingIndex(applicationsContainer.childCount - 2);
