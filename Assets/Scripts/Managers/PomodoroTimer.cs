@@ -95,7 +95,6 @@ public class PomodoroTimer : MonoBehaviour
     {
         _state = PomodoroTimerState.LongBreak;
         _timer = longBreakChunkDuration;
-        SceneManager.LoadScene("BreakScene");
-        //TODO: set break mode to long break
+        FindObjectOfType<BreakManager>().StartLongBreak();
     }
 }
