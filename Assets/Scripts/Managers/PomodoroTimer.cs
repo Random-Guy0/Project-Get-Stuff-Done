@@ -33,8 +33,8 @@ public class PomodoroTimer : MonoBehaviour
         if (debugMode)
         {
             workChunkDuration = 11f;
-            breakChunkDuration = 31f;
-            longBreakChunkDuration = 45f;
+            breakChunkDuration = 16f;
+            longBreakChunkDuration = 46f;
         }
     }
 
