@@ -8,14 +8,14 @@ public class ShopManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text goldText;
 
-    private void OnEnable()
+    private void Start()
     {
-        SetGoldText(ResourceManager.Instance.Coins);
+        ResourceManager.Instance.OnCoinsChange += SetGoldText;
     }
 
-    private void OnBecameVisible()
+    private void OnDestroy()
     {
-        SetGoldText(ResourceManager.Instance.Coins);
+        ResourceManager.Instance.OnCoinsChange -= SetGoldText;
     }
 
     private void SetGoldText(int amount)

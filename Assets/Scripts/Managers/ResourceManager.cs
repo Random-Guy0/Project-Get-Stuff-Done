@@ -6,8 +6,22 @@ using UnityEngine;
 public class ResourceManager : MonoBehaviour
 {
     public static ResourceManager Instance { get; private set; }
+
+    private int _coins;
+    public int Coins
+    {
+        get => _coins;
+        private set
+        {
+            _coins = value;
+            OnCoinsChange?.Invoke(value);
+        }
+    }
+
+    public delegate void OnCoinsChangeHandler(int coins);
+
+    public event OnCoinsChangeHandler OnCoinsChange;
     
-    public int Coins { get; private set; }
     public int RewardCoins { get; private set; }
     
     [SerializeField] private int coinsEarnedPerWorkChunk = 100;
