@@ -1,12 +1,10 @@
-﻿public class Animal : Creature, IAttacker, IDefender
-{
-    private int _damageAmount;
-    public int DamageAmount => _damageAmount;
+﻿using UnityEngine;
 
-    public Animal(int maxHealth, int damageAmount) : base(maxHealth)
-    {
-        _damageAmount = damageAmount;
-    }
+[CreateAssetMenu(menuName = "Creatures/Animal", fileName = "new Animal")]
+public class Animal : Creature, IAttacker, IDefender
+{
+    [SerializeField] private int damageAmount;
+    public int DamageAmount => damageAmount;
 
     public void Attack(Creature other)
     {
@@ -15,7 +13,7 @@
 
     public void UpgradeDamageAmount(int amount)
     {
-        _damageAmount += amount;
+        damageAmount += amount;
     }
 
     public void Defend(Creature other)

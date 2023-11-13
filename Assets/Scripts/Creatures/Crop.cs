@@ -1,12 +1,10 @@
-﻿public class Crop : Creature, IDefender, IHealer
+﻿using UnityEngine;
+
+[CreateAssetMenu(menuName = "Creatures/Crop", fileName = "new Crop")]
+public class Crop : Creature, IDefender, IHealer
 {
-    private int _healAmount;
-    public int HealAmount => _healAmount;
-    
-    public Crop(int maxHealth, int healAmount) : base(maxHealth)
-    {
-        _healAmount = healAmount;
-    }
+    [SerializeField] private int healAmount;
+    public int HealAmount => healAmount;
 
     public void Defend(Creature other)
     {
@@ -21,6 +19,6 @@
 
     public void UpgradeHealAmount(int amount)
     {
-        _healAmount += amount;
+        healAmount += amount;
     }
 }

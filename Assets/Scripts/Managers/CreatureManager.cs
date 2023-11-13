@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimalsCropsManager : MonoBehaviour
+public class CreatureManager : MonoBehaviour
 {
-    public static AnimalsCropsManager Instance { get; private set; }
+    public static CreatureManager Instance { get; private set; }
 
     public List<Creature> Owned { get; private set; } = new List<Creature>();
     

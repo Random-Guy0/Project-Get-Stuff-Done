@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class Creature
+public class Creature : ScriptableObject
 {
     public int Health { get; private set; }
-    private int _maxHealth;
+    [SerializeField] private int maxHealth;
     
     public bool Defended { get; private set; }
 
-    public Creature(int maxHealth)
+    public virtual void Init()
     {
         Health = maxHealth;
-        _maxHealth = Health;
     }
 
     public void TakeDamage(int amount)
@@ -34,9 +34,9 @@ public class Creature
     {
         Health += amount;
 
-        if (Health > _maxHealth)
+        if (Health > maxHealth)
         {
-            Health = _maxHealth;
+            Health = maxHealth;
         }
     }
 
@@ -48,7 +48,7 @@ public class Creature
     public void UpgradeHealth(int amount)
     {
         Health += amount;
-        _maxHealth += amount;
+        maxHealth += amount;
     }
 
     public void Protect()
