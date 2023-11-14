@@ -12,6 +12,7 @@ public class ShopManager : MonoBehaviour
     private void Start()
     {
         ResourceManager.Instance.OnCoinsChange += SetGoldText;
+        SetGoldText(ResourceManager.Instance.Coins);
         _animalCropDisplay = FindObjectOfType<AnimalCropDisplay>();
     }
 
@@ -27,9 +28,12 @@ public class ShopManager : MonoBehaviour
 
     public void Buy(Creature creature)
     {
-        Creature newInstance = Instantiate<Creature>(creature);
-        newInstance.Init();
-        CreatureManager.Instance.Owned.Add(newInstance);
-        _animalCropDisplay.AddCreature(newInstance);
+        if (ResourceManager.Instance.SpendCoins(creature.Cost))
+        {
+            Creature newInstance = Instantiate<Creature>(creature);
+            newInstance.Init();
+            CreatureManager.Instance.Owned.Add(newInstance);
+            _animalCropDisplay.AddCreature(newInstance);
+        }
     }
 }

@@ -3,14 +3,22 @@
 [CreateAssetMenu(menuName = "Creatures/Crop", fileName = "new Crop")]
 public class Crop : Creature, IDefender, IHealer
 {
+    [field: SerializeField] public CropContainer Prefab { get; private set; }
     [SerializeField] private int healAmount;
     public int HealAmount => healAmount;
 
+    [SerializeField] private int defenseAmount;
+    public int DefenseAmount => defenseAmount;
+
     public void Defend(Creature other)
     {
-        other.Protect();
+        other.Protect(DefenseAmount);
     }
 
+    public void UpgradeDefenseAmount(int amount)
+    {
+        defenseAmount += amount;
+    }
     
     public void Heal(Creature other)
     {

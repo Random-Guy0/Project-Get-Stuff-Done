@@ -5,10 +5,12 @@ using UnityEngine.Serialization;
 
 public class Creature : ScriptableObject
 {
+    [field: SerializeField] public int Cost { get; private set; }
+    
     public int Health { get; private set; }
     [SerializeField] private int maxHealth;
     
-    public bool Defended { get; private set; }
+    public int Defense { get; private set; }
 
     public virtual void Init()
     {
@@ -17,7 +19,15 @@ public class Creature : ScriptableObject
 
     public void TakeDamage(int amount)
     {
-        if (Defended)
+        int newDefense = Defense - amount;
+        if (newDefense < 0)
+        {
+            newDefense = 0;
+        }
+        
+        amount -= Defense;
+        Defense = amount;
+        if (amount <= 0)
         {
             return;
         }
@@ -51,8 +61,8 @@ public class Creature : ScriptableObject
         maxHealth += amount;
     }
 
-    public void Protect()
+    public void Protect(int amount)
     {
-        Defended = true;
+        Defense = amount;
     }
 }

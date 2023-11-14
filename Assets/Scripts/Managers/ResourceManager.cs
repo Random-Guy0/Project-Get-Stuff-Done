@@ -55,4 +55,20 @@ public class ResourceManager : MonoBehaviour
     {
         Coins += coinsEarnedPerTask;
     }
+
+    public bool SpendCoins(int amount)
+    {
+        bool canSpend = CanSpendCoins(amount);
+        if (canSpend)
+        {
+            Coins -= amount;
+        }
+
+        return canSpend;
+    }
+
+    public bool CanSpendCoins(int amount)
+    {
+        return Coins >= amount;
+    }
 }
