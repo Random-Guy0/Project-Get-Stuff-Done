@@ -8,11 +8,11 @@ public class BreakSceneCreatureClickHandler : CreatureClickHandler
     {
         if (clickedCreature is Animal animal)
         {
-            Instantiate(animal.UpgradeScreen);
+            Instantiate<UpgradeUI>(animal.UpgradeScreen).Init(animal);
         }
         else if (clickedCreature is Crop crop)
         {
-            Instantiate(crop.UpgradeScreen);
+            Instantiate<UpgradeUI>(crop.UpgradeScreen).Init(crop);
         }
     }
 }

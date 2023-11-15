@@ -15,6 +15,6 @@ MonoBehaviour:
   <Cost>k__BackingField: 1
   maxHealth: 10
   <Prefab>k__BackingField: {fileID: 7823743550054406083, guid: 6048466cc5228fa428e253f128559101, type: 3}
-  <UpgradeScreen>k__BackingField: {fileID: 0}
+  <UpgradeScreen>k__BackingField: {fileID: 562152987152392870, guid: 5b49dfc6fe0b0cc4ead73a1c69603e5d, type: 3}
   damageAmount: 4
   defenseAmount: 2

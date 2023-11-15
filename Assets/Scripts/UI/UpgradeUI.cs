@@ -40,6 +40,7 @@ public class UpgradeUI : MonoBehaviour
         }
     }
 
+    [SerializeField] private int upgradeCost = 500;
     [SerializeField] private string creatureName;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private string attribute1Name;
@@ -78,20 +79,29 @@ public class UpgradeUI : MonoBehaviour
     
     public void UpgradeAttribute1()
     {
-        _attribute1UpgradeMethod(attribute1UpgradeAmount);
-        SetAttribute1Text(_attribute1Getter());
+        if (ResourceManager.Instance.SpendCoins(upgradeCost))
+        {
+            _attribute1UpgradeMethod(attribute1UpgradeAmount);
+            SetAttribute1Text(_attribute1Getter());
+        }
     }
     
     public void UpgradeAttribute2()
     {
-        _attribute2UpgradeMethod(attribute2UpgradeAmount);
-        SetAttribute2Text(_attribute2Getter());
+        if (ResourceManager.Instance.SpendCoins(upgradeCost))
+        {
+            _attribute2UpgradeMethod(attribute2UpgradeAmount);
+            SetAttribute2Text(_attribute2Getter());
+        }
     }
     
     public void UpgradeAttribute3()
     {
-        _attribute3UpgradeMethod(attribute3UpgradeAmount);
-        SetAttribute3Text(_attribute3Getter());
+        if (ResourceManager.Instance.SpendCoins(upgradeCost))
+        {
+            _attribute3UpgradeMethod(attribute3UpgradeAmount);
+            SetAttribute3Text(_attribute3Getter());
+        }
     }
 
     public void CloseMenu()
