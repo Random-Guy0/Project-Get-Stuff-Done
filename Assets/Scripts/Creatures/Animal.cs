@@ -4,6 +4,7 @@
 public class Animal : Creature, IAttacker, IDefender
 {
     [field: SerializeField] public AnimalContainer Prefab { get; private set; }
+    [field: SerializeField] public GameObject UpgradeScreen { get; private set; }
     [SerializeField] private int damageAmount;
     public int DamageAmount => damageAmount;
     

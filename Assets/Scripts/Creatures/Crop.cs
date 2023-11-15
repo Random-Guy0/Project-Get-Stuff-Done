@@ -4,6 +4,7 @@
 public class Crop : Creature, IDefender, IHealer
 {
     [field: SerializeField] public CropContainer Prefab { get; private set; }
+    [field: SerializeField] public GameObject UpgradeScreen { get; private set; }
     [SerializeField] private int healAmount;
     public int HealAmount => healAmount;
 
