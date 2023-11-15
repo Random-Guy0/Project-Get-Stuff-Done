@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 public class CreatureManager : MonoBehaviour
 {
     public static CreatureManager Instance { get; private set; }
 
-    public List<Creature> Owned { get; private set; } = new List<Creature>();
+    public ObservableCollection<Creature> Owned { get; private set; } = new ObservableCollection<Creature>();
+    public Creature[] Party { get; private set; } = new Creature[3];
     
     private void Start()
     {
