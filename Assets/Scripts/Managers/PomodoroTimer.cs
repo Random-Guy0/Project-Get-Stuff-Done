@@ -32,8 +32,8 @@ public class PomodoroTimer : MonoBehaviour
 
         if (debugMode)
         {
-            workChunkDuration = 11f;
-            breakChunkDuration = 31f;
+            workChunkDuration = 1f;
+            breakChunkDuration = 5f;
             longBreakChunkDuration = 46f;
         }
     }
@@ -60,7 +60,7 @@ public class PomodoroTimer : MonoBehaviour
                 BeginBreak();
                 break;
             case PomodoroTimerState.Break:
-                if (_workChunkCount % 4f == 0f)
+                if (_workChunkCount % 1f == 0f)
                 {
                     BeginLongBreak();
                 }

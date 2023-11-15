@@ -5,12 +5,44 @@ using UnityEngine.Serialization;
 
 public class Creature : ScriptableObject
 {
-    [field: SerializeField] public int Cost { get; private set; }
+    [field: SerializeField] public int CostOrScore { get; private set; }
+
+    private int _health;
+
+    public int Health
+    {
+        get => _health;
+        private set
+        {
+            _health = value;
+            OnHealthChanged?.Invoke(value);
+        }
+    }
+
+    public delegate void OnHealthChangedHandler(int health);
+    public event OnHealthChangedHandler OnHealthChanged;
     
-    public int Health { get; private set; }
     [SerializeField] private int maxHealth;
+
+    public delegate void OnDeathHandler();
+
+    public event OnDeathHandler OnDeath;
+
+    private int _shield;
+    public int Shield
+    {
+        get => _shield;
+        private set
+        {
+            _shield = value;
+            OnShieldChanged?.Invoke(value);
+        }
+    }
     
-    public int Defense { get; private set; }
+    public delegate void OnShieldChangedHandler(int shield);
+    public event OnShieldChangedHandler OnShieldChanged;
+    
+    public bool HasAttacked { get; set; }
 
     public virtual void Init()
     {
@@ -19,14 +51,14 @@ public class Creature : ScriptableObject
 
     public void TakeDamage(int amount)
     {
-        int newDefense = Defense - amount;
+        int newDefense = Shield - amount;
         if (newDefense < 0)
         {
             newDefense = 0;
         }
         
-        amount -= Defense;
-        Defense = amount;
+        amount -= Shield;
+        Shield = amount;
         if (amount <= 0)
         {
             return;
@@ -52,7 +84,7 @@ public class Creature : ScriptableObject
 
     public void Die()
     {
-        
+        OnDeath?.Invoke();
     }
 
     public void UpgradeHealth(int amount)
@@ -63,6 +95,6 @@ public class Creature : ScriptableObject
 
     public void Protect(int amount)
     {
-        Defense = amount;
+        Shield = amount;
     }
 }

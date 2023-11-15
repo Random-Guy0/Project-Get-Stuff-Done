@@ -9,6 +9,21 @@ public class CreatureContainer<T> : MonoBehaviour, IPointerEnterHandler, IPointe
 {
     [field: SerializeField] public T Creature { get; set; }
 
+    private void Start()
+    {
+        Creature.OnDeath += Die;
+    }
+
+    private void OnDestroy()
+    {
+        Creature.OnDeath -= Die;
+    }
+
+    private void Die()
+    {
+        Destroy(gameObject);
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         Renderer render = GetComponentInChildren<Renderer>();

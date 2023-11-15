@@ -14,6 +14,7 @@ public class PartyUI : MonoBehaviour
     private void Start()
     {
         CreatureManager.Instance.Owned.CollectionChanged += UpdateDropdowns;
+        UpdateDropdowns(null, null);
     }
 
     private void UpdateDropdowns(System.Object obj, NotifyCollectionChangedEventArgs eventArgs)
@@ -21,12 +22,12 @@ public class PartyUI : MonoBehaviour
         //thanks for this line jetbrains rider
         List<TMP_Dropdown.OptionData> options = (from creature in CreatureManager.Instance.Owned select creature.name into creatureName select creatureName.Replace("(Clone)", "") into creatureName select new TMP_Dropdown.OptionData(creatureName)).ToList();
 
-        foreach (TMP_Dropdown dropdown in partyDropdowns)
+        for (int i = 0; i < partyDropdowns.Length; i++)
         {
-            int selected = dropdown.value;
-            dropdown.ClearOptions();
-            dropdown.options = options;
-            dropdown.value = selected;
+            int selected = CreatureManager.Instance.Owned.IndexOf(CreatureManager.Instance.Party[i]);
+            partyDropdowns[i].ClearOptions();
+            partyDropdowns[i].options = options;
+            partyDropdowns[i].value = selected;
         }
     }
 

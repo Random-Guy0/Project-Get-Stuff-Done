@@ -15,7 +15,7 @@ public class ShopManager : MonoBehaviour
 
     public void Buy(Creature creature)
     {
-        if (ResourceManager.Instance.SpendCoins(creature.Cost))
+        if (ResourceManager.Instance.SpendCoins(creature.CostOrScore))
         {
             Creature newInstance = Instantiate<Creature>(creature);
             newInstance.Init();
