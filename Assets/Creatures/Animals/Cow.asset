@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eed9828344d24f9ea116f8077f18c977, type: 3}
   m_Name: Cow
   m_EditorClassIdentifier: 
-  <CostOrScore>k__BackingField: 2000
+  <CostOrScore>k__BackingField: 1
   maxHealth: 10
   <Prefab>k__BackingField: {fileID: 7823743550054406083, guid: 6048466cc5228fa428e253f128559101, type: 3}
   <UpgradeScreen>k__BackingField: {fileID: 562152987152392870, guid: 5b49dfc6fe0b0cc4ead73a1c69603e5d, type: 3}

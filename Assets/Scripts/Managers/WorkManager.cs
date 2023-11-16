@@ -39,8 +39,8 @@ public class WorkManager : MonoBehaviour
             _timer = 0f;
         }
         
-        Debug.Log("Seconds in Focus: " + SecondsInFocus);
-        Debug.Log("Seconds of Input: " + SecondsOfInput);
+        //Debug.Log("Seconds in Focus: " + SecondsInFocus);
+        //Debug.Log("Seconds of Input: " + SecondsOfInput);
     }
 
     private void CheckForWork()

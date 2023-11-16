@@ -1444,7 +1444,7 @@ MonoBehaviour:
   workChunkDuration: 1501
   breakChunkDuration: 301
   longBreakChunkDuration: 901
-  debugMode: 0
+  debugMode: 1
 --- !u!1 &1450327122
 GameObject:
   m_ObjectHideFlags: 0
