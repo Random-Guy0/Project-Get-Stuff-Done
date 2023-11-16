@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eed9828344d24f9ea116f8077f18c977, type: 3}
+  m_Name: Cow
+  m_EditorClassIdentifier: 
+  <CostOrScore>k__BackingField: 2000
+  maxHealth: 10
+  <Prefab>k__BackingField: {fileID: 7823743550054406083, guid: 6048466cc5228fa428e253f128559101, type: 3}
+  <UpgradeScreen>k__BackingField: {fileID: 562152987152392870, guid: 5b49dfc6fe0b0cc4ead73a1c69603e5d, type: 3}
+  damageAmount: 4
+  defenseAmount: 2
