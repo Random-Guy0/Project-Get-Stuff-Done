@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class BattleManager : MonoBehaviour
 {
@@ -20,6 +22,9 @@ public class BattleManager : MonoBehaviour
 
     [SerializeField] private HealthDisplayUI healthDisplay;
 
+    [SerializeField] private TMP_Text selectInitialText;
+    [SerializeField] private TMP_Text selectTargetText;
+
     private int _numPlayers = 0;
     private int _numEnemies = 1;
 
@@ -34,8 +39,24 @@ public class BattleManager : MonoBehaviour
     private int _monsterUpgrade = 2;
 
     private MonsterContainer[] _enemies = new MonsterContainer[3];
+
+    private int _score = 0;
+
+    public int Score
+    {
+        get => _score;
+        private set
+        {
+            _score = value;
+            OnScoreChanged?.Invoke(value);
+        }
+    }
+
+    public delegate void OnScoreChangedHandler(int score);
+
+    public event OnScoreChangedHandler OnScoreChanged;
     
-    private void Start()
+    private void Awake()
     {
         if (Instance != null && Instance != this)
         {
@@ -50,6 +71,7 @@ public class BattleManager : MonoBehaviour
         
         SpawnPlayerCreatures();
         SpawnEnemyCreatures();
+        NextTurn();
     }
 
     private void SpawnPlayerCreatures()
@@ -73,6 +95,7 @@ public class BattleManager : MonoBehaviour
             }
 
             _numPlayers++;
+            CreatureManager.Instance.Party[i].Init();
 
             if (CreatureManager.Instance.Party[i] is Animal animal)
             {
@@ -83,6 +106,7 @@ public class BattleManager : MonoBehaviour
                 newHealthDisplay.SetHealthText(animal.Health);
                 animal.OnShieldChanged += newHealthDisplay.SetShieldText;
                 newHealthDisplay.SetShieldText(animal.Shield);
+                animal.OnDeath += RemovePlayer;
             }
             else if (CreatureManager.Instance.Party[i] is Crop crop)
             {
@@ -93,6 +117,7 @@ public class BattleManager : MonoBehaviour
                 newHealthDisplay.SetHealthText(crop.Health);
                 crop.OnShieldChanged += newHealthDisplay.SetShieldText;
                 newHealthDisplay.SetShieldText(crop.Shield);
+                crop.OnDeath += RemovePlayer;
             }
         }
 
@@ -114,17 +139,29 @@ public class BattleManager : MonoBehaviour
             newHealthDisplay.SetHealthText(newMonster.Health);
             newMonster.OnShieldChanged += newHealthDisplay.SetShieldText;
             newHealthDisplay.SetShieldText(newMonster.Shield);
+
+            int upgradeAmount = (_wave - 1) * _monsterUpgrade;
+            newMonster.UpgradeHealth(upgradeAmount);
+            newMonster.UpgradeDamageAmount(upgradeAmount);
+            newMonster.UpgradeDefenseAmount(upgradeAmount);
         }
     }
 
-    private void RemoveMonster()
+    private void RemoveMonster(Creature monster)
     {
+        Score += monster.CostOrScore;
         _numEnemies--;
+    }
+
+    private void RemovePlayer(Creature player)
+    {
+        _numPlayers--;
+        player.OnDeath -= RemovePlayer;
     }
 
     public void SelectPlayerCreature(Creature creature)
     {
-        if (creature.HasAttacked)
+        if (creature.HasAttacked || creature is Monster)
         {
             return;
         }
@@ -144,6 +181,7 @@ public class BattleManager : MonoBehaviour
         
         button1.gameObject.SetActive(true);
         button2.gameObject.SetActive(true);
+        selectInitialText.gameObject.SetActive(false);
     }
 
     public void SelectTarget(Creature creature)
@@ -154,6 +192,8 @@ public class BattleManager : MonoBehaviour
         }
         
         _selectedPlayerCreature.HasAttacked = true;
+        selectTargetText.gameObject.SetActive(false);
+        selectInitialText.gameObject.SetActive(true);
 
         if (_selectedPlayerCreature is Animal animal)
         {
@@ -179,9 +219,17 @@ public class BattleManager : MonoBehaviour
         }
 
         _playerAttacksLeft--;
-        if (_playerAttacksLeft == 0)
+        if (_playerAttacksLeft == 0 && _numEnemies > 0)
         {
             DoEnemyAttacks();
+        }
+        else if (_numEnemies == 0)
+        {
+            NextWave();
+        }
+        else
+        {
+            _clickHandler.BattleClickMode = BattleClickMode.SelectInitial;
         }
     }
 
@@ -190,6 +238,7 @@ public class BattleManager : MonoBehaviour
         button1.gameObject.SetActive(false);
         button2.gameObject.SetActive(false);
         _clickHandler.BattleClickMode = BattleClickMode.SelectTarget;
+        selectTargetText.gameObject.SetActive(true);
         _selectedOption2 = false;
     }
 
@@ -198,11 +247,76 @@ public class BattleManager : MonoBehaviour
         button1.gameObject.SetActive(false);
         button2.gameObject.SetActive(false);
         _clickHandler.BattleClickMode = BattleClickMode.SelectTarget;
+        selectTargetText.gameObject.SetActive(true);
         _selectedOption2 = true;
     }
 
     private void DoEnemyAttacks()
     {
-        
+        for (int i = 0; i < _numEnemies; i++)
+        {
+            if (_enemies[i] == null)
+            {
+                continue;
+            }
+            
+            bool attackOrDefend = Convert.ToBoolean(Random.Range(0, 2)) || _numEnemies <= 1;
+
+            if (attackOrDefend)
+            {
+                List<Creature> notNullPlayers =
+                    CreatureManager.Instance.Party.Where(creature => creature != null && creature.Health > 0).ToList();
+                int randomPlayer = Random.Range(0, notNullPlayers.Count);
+                _enemies[i].Creature.Attack(notNullPlayers[randomPlayer]);
+            }
+            else
+            {
+                List<MonsterContainer> notNullMonsters = _enemies.Where(enemy => enemy != null && enemy != _enemies[i]).ToList();
+                int randomEnemy = Random.Range(0, notNullMonsters.Count);
+                _enemies[i].Creature.Defend(_enemies[randomEnemy].Creature);
+            }
+        }
+
+        if (_numPlayers == 0)
+        {
+            SceneManager.LoadScene("BreakScene");
+        }
+        else
+        {
+            NextTurn();
+        }
+    }
+
+    private void NextWave()
+    {
+        _wave++;
+        SpawnEnemyCreatures();
+        NextTurn();
+    }
+
+    private void NextTurn()
+    {
+        _clickHandler.BattleClickMode = BattleClickMode.SelectInitial;
+        _playerAttacksLeft = _numPlayers;
+        foreach (Creature creature in CreatureManager.Instance.Party)
+        {
+            if (creature != null)
+            {
+                creature.HasAttacked = false;
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        foreach (Creature player in CreatureManager.Instance.Party)
+        {
+            if (player == null)
+            {
+                continue;
+            }
+            
+            player.UnsubscribeAllEvents();
+        }
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class PomodoroTimer : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class PomodoroTimer : MonoBehaviour
     [SerializeField] private float breakChunkDuration = 300f;
     [SerializeField] private float longBreakChunkDuration = 900f;
     [SerializeField] private bool debugMode = false;
-    private PomodoroTimerState _state = PomodoroTimerState.NotStarted;
+    public PomodoroTimerState State { get; private set; } = PomodoroTimerState.NotStarted;
     
     public float CurrentTime
     {
@@ -54,7 +55,7 @@ public class PomodoroTimer : MonoBehaviour
 
     private void ChangeState()
     {
-        switch (_state)
+        switch (State)
         {
             case PomodoroTimerState.Work:
                 BeginBreak();
@@ -77,7 +78,7 @@ public class PomodoroTimer : MonoBehaviour
 
     private void BeginWork()
     {
-        _state = PomodoroTimerState.Work;
+        State = PomodoroTimerState.Work;
         _workChunkCount++;
         _timer = workChunkDuration;
         SceneManager.LoadScene("WorkScene");
@@ -85,7 +86,7 @@ public class PomodoroTimer : MonoBehaviour
 
     private void BeginBreak()
     {
-        _state = PomodoroTimerState.Break;
+        State = PomodoroTimerState.Break;
         _timer = breakChunkDuration;
         ResourceManager.Instance.CalculateRewards();
         SceneManager.LoadScene("BreakScene");
@@ -93,7 +94,7 @@ public class PomodoroTimer : MonoBehaviour
 
     private void BeginLongBreak()
     {
-        _state = PomodoroTimerState.LongBreak;
+        State = PomodoroTimerState.LongBreak;
         _timer = longBreakChunkDuration;
         FindObjectOfType<BreakManager>().StartLongBreak();
     }

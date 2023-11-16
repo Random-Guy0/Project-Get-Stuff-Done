@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93c3b9bd306846bda36c87160ff54672, type: 3}
   m_Name: Watermelon
   m_EditorClassIdentifier: 
-  <Cost>k__BackingField: 1
+  <CostOrScore>k__BackingField: 1500
   maxHealth: 5
   <Prefab>k__BackingField: {fileID: 6356663068295525962, guid: 7a4ba03a76deb224883f54def796d4a6, type: 3}
   <UpgradeScreen>k__BackingField: {fileID: 6426815160746770325, guid: 4da7fe41f0ce77342b417d56e4a3bcf2, type: 3}

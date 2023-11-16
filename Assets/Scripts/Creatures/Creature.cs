@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +25,7 @@ public class Creature : ScriptableObject
     
     [SerializeField] private int maxHealth;
 
-    public delegate void OnDeathHandler();
+    public delegate void OnDeathHandler(Creature thisCreature);
 
     public event OnDeathHandler OnDeath;
 
@@ -58,7 +59,7 @@ public class Creature : ScriptableObject
         }
         
         amount -= Shield;
-        Shield = amount;
+        Shield = newDefense;
         if (amount <= 0)
         {
             return;
@@ -84,7 +85,7 @@ public class Creature : ScriptableObject
 
     public void Die()
     {
-        OnDeath?.Invoke();
+        OnDeath?.Invoke(this);
     }
 
     public void UpgradeHealth(int amount)
@@ -96,5 +97,35 @@ public class Creature : ScriptableObject
     public void Protect(int amount)
     {
         Shield = amount;
+    }
+
+    public void UnsubscribeAllEvents()
+    {
+        Delegate[] deathCalls = OnDeath?.GetInvocationList();
+        if (deathCalls != null)
+        {
+            foreach (Delegate deathCall in deathCalls)
+            {
+                OnDeath -= deathCall as OnDeathHandler;
+            }
+        }
+        
+        Delegate[] healthCalls = OnHealthChanged?.GetInvocationList();
+        if (healthCalls != null)
+        {
+            foreach (Delegate healthCall in healthCalls)
+            {
+                OnHealthChanged -= healthCall as OnHealthChangedHandler;
+            }
+        }
+        
+        Delegate[] shieldCalls = OnShieldChanged?.GetInvocationList();
+        if (shieldCalls != null)
+        {
+            foreach (Delegate shieldCall in shieldCalls)
+            {
+                OnShieldChanged -= shieldCall as OnShieldChangedHandler;
+            }
+        }
     }
 }

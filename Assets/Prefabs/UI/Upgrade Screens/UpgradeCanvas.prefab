@@ -412,7 +412,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Upgrade
+  m_text: 'Upgrade
+
+    (500 Coins)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -830,7 +832,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Upgrade
+  m_text: 'Upgrade
+
+    (500 Coins)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1158,7 +1162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a551e3980ccab924d810206673c286e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeCost: 1
+  upgradeCost: 500
   creatureName: 
   nameText: {fileID: 7284657604502779574}
   attribute1Name: Health
@@ -1773,7 +1777,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Upgrade
+  m_text: 'Upgrade
+
+    (500 Coins)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

@@ -13,6 +13,10 @@ public class RewardsUI : MonoBehaviour
     {
         rewardsText.SetText("Rewards Earned: {0} Coins", ResourceManager.Instance.RewardCoins);
         coinsText.SetText("Total Coins: {0} Coins", ResourceManager.Instance.Coins);
+        if (PomodoroTimer.Instance.State == PomodoroTimerState.LongBreak)
+        {
+            Confirm();
+        }
     }
 
     public void Confirm()

@@ -19,7 +19,7 @@ public class CreatureContainer<T> : MonoBehaviour, IPointerEnterHandler, IPointe
         Creature.OnDeath -= Die;
     }
 
-    private void Die()
+    private void Die(Creature thisCreature)
     {
         Destroy(gameObject);
     }
